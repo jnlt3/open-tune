@@ -46,3 +46,19 @@ python3 main.py
 ```
 python main.py
 ```
+
+## To Do
+
+### Website
+1. Should show all the ongoing tuning sessions
+2. Include graphs for each one of them
+
+### Client
+1. Should handle cutechess-cli installation
+2. Should handle opening book installation
+3. Should handle cleaning up all the directories when the client exits
+
+### Server
+1. Save the ongoing tuning sessions to a database
+2. Distribute workloads across clients based on time control
+3. Login system
