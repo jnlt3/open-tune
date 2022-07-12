@@ -2,7 +2,7 @@
 
 This project's goal is to become a user friendly system for distributed SPSA tuning of chess engines
 
-## Setup:
+## Setup
 
 ```
 cd open-tune
@@ -22,7 +22,7 @@ pip3 install -r requirements.txt
 pip install -r requirements.txt
 ```
 
-## Server:
+## Server
 
 ```
 cd server
