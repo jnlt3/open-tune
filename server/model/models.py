@@ -23,6 +23,5 @@ class User(db.Model, UserMixin):
 
 @login_manager.user_loader
 def load_user(user_email):
-    from models import User
 
     return User.query.get(str(user_email))
