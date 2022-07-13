@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     """
     code representation of the User table of the database
     """
+
     email = db.Column(db.VARCHAR(255), primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)

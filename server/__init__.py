@@ -5,7 +5,8 @@ from sqlalchemy_utils import database_exists, create_database
 
 app = Flask(__name__)
 app.config[
-    "SQLALCHEMY_DATABASE_URI"] = "mysql://root@127.0.0.1/open_tune"  # name and address of where the database will be
+    "SQLALCHEMY_DATABASE_URI"
+] = "mysql://root@127.0.0.1/open_tune"  # name and address of where the database will be
 # created (this means that the machine has to have mysql installed)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "jfhnifhjwieotjhf7847f5ee4eqws"
