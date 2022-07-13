@@ -1,4 +1,5 @@
 # routes in a separate file just for them
+import hashlib
 from datetime import timedelta
 
 from flask_login import login_user, logout_user
@@ -70,6 +71,7 @@ def signup():
                       """
     email = request.form.get("email")
     password = request.form.get("password")
+    hashed_password = hashlib.sha512(password.encode()).hexdigest()
     username = request.form.get("username")
     user = User.query.filter_by(username=username).first()
     if user:
@@ -78,7 +80,7 @@ def signup():
 
     utente = User(
         email=email,
-        password=password,
+        password=hashed_password,
         username=username
     )
 
@@ -98,13 +100,14 @@ def Login():
            """
     email = request.form.get("email")
     password = request.form.get("password")
+    hashed_password = hashlib.sha512(password.encode()).hexdigest()
     attempted_user: User = User.query.filter_by(email=email).first()
     if not attempted_user:
         print(attempted_user.__class__)
         flash("User doesn't exist", "error")
         return render_template("login.html")
 
-    if attempted_user.password == password:
+    if attempted_user.password == hashed_password:
         login_user(attempted_user, duration=timedelta(days=365), force=True)
     else:
         flash("wrong password ", "error")
