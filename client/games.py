@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import random
 from subprocess import PIPE, Popen
 from typing import Optional
-from client.utilities import OpeningBook, get_cutechess
+from client.utilities import get_cutechess
 
 
 @dataclass
