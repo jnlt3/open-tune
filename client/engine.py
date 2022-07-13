@@ -3,6 +3,8 @@ import pathlib
 import shutil
 from typing import Union
 
+CURRENT_ENGINES = set()
+
 
 def _get_engines_dir() -> str:
     ENGINES_DIR = "./tmp"
@@ -22,9 +24,12 @@ def get_engine_exe(name: str, branch: str, make_dir: str) -> Union[str, None]:
     engine_path = pathlib.Path(engines_dir, name)
     print(engine_path)
     if engine_path.exists():
-        command = f"cd {engine_path} && git checkout {branch} && cd {make_dir} && make EXE={name}-{branch}"
-        assert os.system(command) == 0
-        return f"{engine_path}/{name}-{branch}"
+        unique_name = f"{name}-{branch}"
+        if unique_name not in CURRENT_ENGINES:
+            command = f"cd {engine_path} && git checkout {branch} && cd {make_dir} && make EXE={unique_name}"
+            assert os.system(command) == 0
+            CURRENT_ENGINES.add(f"{unique_name}")
+        return f"{engine_path}/{unique_name}"
     return None
 
 

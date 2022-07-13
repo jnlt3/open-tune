@@ -50,12 +50,12 @@ def get_params(test_id):
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@app.route('/loginPage')
+@app.route("/loginPage")
 def login():
-    return render_template('login.html')
+    return render_template("login.html")
 
 
 @app.route("/signupPage")
@@ -63,12 +63,12 @@ def registrationPage():
     return render_template("sign_up.html")
 
 
-@app.route('/signup', methods=['POST'])
+@app.route("/signup", methods=["POST"])
 def signup():
     """
-                      Reads the user credentials from a http request and adds him to the project database
-                          :return: redirect to index page
-                      """
+    Reads the user credentials from a http request and adds him to the project database
+        :return: redirect to index page
+    """
     email = request.form.get("email")
     password = request.form.get("password")
     hashed_password = hashlib.sha512(password.encode()).hexdigest()
@@ -78,11 +78,7 @@ def signup():
         flash("Username is invalid or already taken", "error")
         return render_template("sign_up.html")
 
-    utente = User(
-        email=email,
-        password=hashed_password,
-        username=username
-    )
+    utente = User(email=email, password=hashed_password, username=username)
 
     db.session.add(utente)
     db.session.commit()
@@ -94,10 +90,10 @@ def signup():
 @app.route("/login", methods=["GET", "POST"])
 def Login():
     """
-           reads a user login credentials from a http request and if they are valid logs the user in with those same
-           credentials,changing his state from anonymous  user to logged user
-           :return: redirect to index page
-           """
+    reads a user login credentials from a http request and if they are valid logs the user in with those same
+    credentials,changing his state from anonymous  user to logged user
+    :return: redirect to index page
+    """
     email = request.form.get("email")
     password = request.form.get("password")
     hashed_password = hashlib.sha512(password.encode()).hexdigest()
@@ -118,8 +114,8 @@ def Login():
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
     """
-          logs a user out, changing his state from logged user to anonymous user
-              :return:redirect to index page
-          """
+    logs a user out, changing his state from logged user to anonymous user
+        :return:redirect to index page
+    """
     logout_user()
     return render_template("index.html")
