@@ -2,7 +2,7 @@
 import hashlib
 from datetime import timedelta
 
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 
 from server import app, db
 
@@ -12,7 +12,7 @@ from dataclasses import asdict
 import json
 from flask import request, render_template, flash, url_for
 import server.tune as tune
-from server.model.models import User
+from server.model.models import User, SpsaParam, SpsaTest
 from server.tune import push_result_json, push_test_json
 
 sys.path.append("/")
@@ -119,3 +119,31 @@ def logout():
     """
     logout_user()
     return render_template("index.html")
+
+
+@app.route("/addTest", methods=["GET", "POST"])
+@login_required
+def addTest():
+    spsa_test = SpsaTest(
+        test_id=request.form.get('test_id'),
+        engine=request.form.get('engine'),
+        branch=request.form.get('branch'),
+        book=request.form.get('book'),
+        hash_size=request.form.get('hash_size'),
+        tc=request.form.get('tc'),
+    )
+    db.session.add(spsa_test)
+    db.session.commit()
+
+    param = SpsaParam(
+        max_iter=request.form.get("max_iter"),
+        a=request.form.get("a"),
+        c=request.form.get("c"),
+        _A=request.form.get("_A"),
+        alpha=request.form.get("alpha"),
+        gamma=request.form.get("gamma"),
+    )
+    db.session.add(param)
+    db.session.commit()
+
+
