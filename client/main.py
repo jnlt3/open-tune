@@ -13,15 +13,20 @@ from common.spsa import Param
 from common.utils import GameRequest, SpsaInfo, TestRequest
 
 
-def get_spsa_params(params: Dict[str, Param], delta: Dict[str, float]) -> Tuple[Dict[str, int], Dict[str, int]]:
+def get_spsa_params(
+    params: Dict[str, Param], delta: Dict[str, float]
+) -> Tuple[Dict[str, int], Dict[str, int]]:
     params_a = {}
     params_b = {}
     for name, param in params.items():
         params_a[name] = round(
-            max(min(param.value + delta[name], param.highest), param.lowest))
+            max(min(param.value + delta[name], param.highest), param.lowest)
+        )
         params_b[name] = round(
-            max(min(param.value - delta[name], param.highest), param.lowest))
+            max(min(param.value - delta[name], param.highest), param.lowest)
+        )
     return params_a, params_b
+
 
 def main():
     local_host = "http://127.0.0.1:5000"
@@ -37,7 +42,9 @@ def main():
 
     for _ in range(1000):
         spsa_info = SpsaInfo(test.test_id, test.delta, 2, 0, 0)
-        requests.post(f"{local_host}/result", json=json.dumps(dataclasses.asdict(spsa_info)))
+        requests.post(
+            f"{local_host}/result", json=json.dumps(dataclasses.asdict(spsa_info))
+        )
     params = requests.get(f"{local_host}/params/test").json()
     print(params)
 
