@@ -1,5 +1,6 @@
 import json
 import sys
+from typing import Dict, Tuple
 
 from dacite import from_dict
 
@@ -12,7 +13,7 @@ from common.spsa import Param
 from common.utils import GameRequest, SpsaInfo, TestRequest
 
 
-def get_spsa_params(params: dict[str, Param], delta: dict[str, float]) -> tuple[dict[str, int], dict[str, int]]:
+def get_spsa_params(params: Dict[str, Param], delta: Dict[str, float]) -> Tuple[Dict[str, int], Dict[str, int]]:
     params_a = {}
     params_b = {}
     for name, param in params.items():

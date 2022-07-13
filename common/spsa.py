@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Dict, List
 
 
 @dataclass
@@ -33,7 +34,7 @@ class SpsaTest:
 class SpsaTuner:
     config: SpsaTest
     spsa_params: SpsaParam
-    engine_params: dict[str, Param]
+    engine_params: Dict[str, Param]
     t: int
-    iters: list[int]
-    hist: dict[str, list[float]]
+    iters: List[int]
+    hist: Dict[str, List[float]]

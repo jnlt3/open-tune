@@ -1,13 +1,12 @@
 import copy
-from dataclasses import asdict
 import json
-from typing import Union
+from typing import Dict, List, Union
 from common.spsa import SpsaParam, SpsaTest, SpsaTuner
 from common.utils import GameRequest, SpsaInfo, TestRequest
 import random
 from dacite import from_dict
 
-TUNES: dict[str, SpsaTuner] = {}
+TUNES: Dict[str, SpsaTuner] = {}
 
 
 def push_test_json(json_str: str) -> str:
@@ -95,11 +94,11 @@ def get_test() -> Union[GameRequest, None]:
     )
 
 
-def get_current_test_ids() -> list[str]:
+def get_current_test_ids() -> List[str]:
     return list(TUNES.keys())
 
 
-def get_test_by_id(key: str) -> Union[dict[str, float], None]:
+def get_test_by_id(key: str) -> Union[Dict[str, float], None]:
     if key not in TUNES:
         return None
     params = TUNES[key].engine_params
