@@ -23,5 +23,34 @@ class User(db.Model, UserMixin):
 
 @login_manager.user_loader
 def load_user(user_email):
-
     return User.query.get(str(user_email))
+
+
+class Param(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.Float)
+    lowest = db.Column(db.Float)
+    highest = db.Column(db.Float)
+    step = db.Column(db.Float)
+
+
+class SpsaParam(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    max_iter = db.Column(db.Integer)
+    a = db.Column(db.Float)
+    c = db.Column(db.Float)
+    _A = db.Column(db.Float)
+    alpha = db.Column(db.Float)
+    gamma = db.Column(db.Float)
+
+
+class SpsaTest(db.Model):
+    test_id = db.Column(db.String(50), primary_key=True)
+    engine = db.Column(db.String(50))
+    branch = db.Column(db.String(50))
+    book = db.Column(db.String(50))
+    hash_size = db.Column(db.Integer)
+    tc = db.Column(db.Float)
+
+
+
