@@ -10,7 +10,7 @@ import sys
 
 from dataclasses import asdict
 import json
-from flask import  request, render_template, flash
+from flask import request, render_template, flash, url_for
 import server.tune as tune
 from server.model.models import User
 from server.tune import push_result_json, push_test_json
@@ -50,7 +50,7 @@ def get_params(test_id):
 
 @app.route("/")
 def index():
-    return ""
+    return render_template('index.html')
 
 
 @app.route('/loginPage')
@@ -76,7 +76,7 @@ def signup():
     user = User.query.filter_by(username=username).first()
     if user:
         flash("Username is invalid or already taken", "error")
-        return render_template("registration.html")
+        return render_template("sign_up.html")
 
     utente = User(
         email=email,
