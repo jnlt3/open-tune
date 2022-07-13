@@ -52,6 +52,7 @@ python main.py
 ### Website
 1. Should show all the ongoing tuning sessions
 2. Include graphs for each one of them
+3. Submit/Remove tests
 
 ### Client
 1. Should handle cutechess-cli installation
