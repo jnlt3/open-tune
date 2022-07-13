@@ -2,7 +2,7 @@ from calendar import c
 from dataclasses import dataclass
 import random
 from subprocess import PIPE, Popen
-from typing import Optional
+from typing import Dict, Optional
 from client.utilities import get_cutechess
 
 
@@ -15,29 +15,31 @@ class MatchResult:
 
 
 class CutechessMan:
-
     def __init__(
         self,
         engine: str,
         book: str,
         games: int = 120,
         tc: float = 5.0,
-        hash: int = 8,
-        threads: int = 1
+        hash_size: int = 8,
+        threads: int = 1,
     ):
         self.engine = engine
         self.book = book
         self.games = games
         self.tc = tc
         self.inc = tc / 100
-        self.hash_size = hash
+        self.hash_size = hash_size
         self.threads = threads
 
-    def get_cutechess_cmd(
-        self,
-        params_a: list[str],
-        params_b: list[str]
+    def _get_cmd(
+        self, params_a: Dict[str, int], params_b: Dict[str, int]
     ) -> Optional[str]:
+        def to_option(params: Dict[str, int]):
+            return [f"option.{param}={params[param]}" for param in params.keys()]
+
+        params_a = to_option(params_a)
+        params_b = to_option(params_b)
         cute_chess = get_cutechess()
         if cute_chess is None:
             return None
@@ -60,8 +62,14 @@ class CutechessMan:
             "-pgnout cutechess/games.pgn"
         )
 
-    def run(self, params_a: list[str], params_b: list[str]) -> MatchResult:
-        cmd = self.get_cutechess_cmd(params_a, params_b)
+    def run(
+        self, params_a: Dict[str, int], params_b: Dict[str, int]
+    ) -> Optional[MatchResult]:
+
+        cmd = self._get_cmd(params_a, params_b)
+        if cmd is None:
+            return None
+        print(cmd)
         cutechess = Popen(cmd.split(), stdout=PIPE)
 
         score = [0, 0, 0]
@@ -70,10 +78,11 @@ class CutechessMan:
         while True:
 
             # Read each line of output until the pipe closes
-            line = cutechess.stdout.readline().strip().decode('ascii')
+            line = cutechess.stdout.readline().strip().decode("ascii")
             if not line:
                 cutechess.wait()
                 return MatchResult(*score, elo_diff)
+            print(line)
             # Parse WLD score
             if line.startswith("Score of"):
                 start_index = line.find(":") + 1
