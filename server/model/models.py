@@ -52,6 +52,3 @@ class SpsaTest(db.Model):
     book = db.Column(db.String(50))
     hash_size = db.Column(db.Integer)
     tc = db.Column(db.Float)
-
-
-

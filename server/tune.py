@@ -52,7 +52,7 @@ def push_result(info: SpsaInfo):
     test.t += info.w + info.l + info.d
 
     a_t = test.spsa_params.a / (test.t + test.spsa_params.A) ** test.spsa_params.alpha
-    c_t = test.spsa_params.c / (test.t**test.spsa_params.gamma)
+    c_t = test.spsa_params.c / (test.t ** test.spsa_params.gamma)
 
     gradients = {}
     for name, delta in info.delta.items():
@@ -72,7 +72,7 @@ def get_test() -> Union[GameRequest, None]:
         return None
     test = TUNES[random.choice(list(TUNES.keys()))]
 
-    c_t = test.spsa_params.c / (test.t**test.spsa_params.gamma)
+    c_t = test.spsa_params.c / (test.t ** test.spsa_params.gamma)
 
     delta = {}
     params = {}
