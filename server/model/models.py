@@ -1,4 +1,6 @@
 # database models in a separate file just for them
+import enum
+
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey, Enum
 from sqlalchemy.util import text_type
@@ -45,6 +47,15 @@ class SpsaParam(db.Model):
     gamma = db.Column(db.Float)
 
 
+class TestStates(enum.Enum):
+    ongoing = 1
+    stopped = 2
+    finished = 3
+
+    def __str__(self):
+        return self.name
+
+
 class SpsaTest(db.Model):
     test_id = db.Column(db.String(50), primary_key=True)
     engine = db.Column(db.String(50))
@@ -52,6 +63,4 @@ class SpsaTest(db.Model):
     book = db.Column(db.String(50))
     hash_size = db.Column(db.Integer)
     tc = db.Column(db.Float)
-
-
-
+    status = db.Column(db.Enum(TestStates), default=TestStates.ongoing)

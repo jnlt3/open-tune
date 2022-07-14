@@ -121,16 +121,22 @@ def logout():
     return render_template("index.html")
 
 
-@app.route("/addTest", methods=["GET", "POST"])
+@app.route("/TestPage", methods=["GET", "POST"])
+@login_required
+def TestPage():
+    return render_template("test.html")
+
+
+@app.route("/Test", methods=["GET", "POST"])
 @login_required
 def addTest():
     spsa_test = SpsaTest(
-        test_id=request.form.get('test_id'),
-        engine=request.form.get('engine'),
-        branch=request.form.get('branch'),
-        book=request.form.get('book'),
-        hash_size=request.form.get('hash_size'),
-        tc=request.form.get('tc'),
+        test_id=request.form.get("test_id"),
+        engine=request.form.get("engine"),
+        branch=request.form.get("branch"),
+        book=request.form.get("book"),
+        hash_size=request.form.get("hash_size"),
+        tc=request.form.get("tc"),
     )
     db.session.add(spsa_test)
     db.session.commit()
@@ -143,7 +149,14 @@ def addTest():
         alpha=request.form.get("alpha"),
         gamma=request.form.get("gamma"),
     )
+
     db.session.add(param)
     db.session.commit()
 
+    return render_template("index.html")
 
+
+@app.route("/TestList", methods=["GET", "POST"])
+def ShowTests():
+    tests = SpsaTest.query.filter_by(status='ongoing').all()
+    return render_template("tests.html", tests=tests)
