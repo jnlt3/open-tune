@@ -154,3 +154,9 @@ def addTest():
     db.session.commit()
 
     return render_template("index.html")
+
+
+@app.route("/TestList", methods=["GET", "POST"])
+def ShowTests():
+    tests = SpsaTest.query.filter_by(status='ongoing').all()
+    return render_template("tests.html", tests=tests)

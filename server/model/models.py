@@ -52,6 +52,9 @@ class TestStates(enum.Enum):
     stopped = 2
     finished = 3
 
+    def __str__(self):
+        return self.name
+
 
 class SpsaTest(db.Model):
     test_id = db.Column(db.String(50), primary_key=True)

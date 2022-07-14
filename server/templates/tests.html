@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="..\static\table.css">
+</head>
+<body>
+ <table>
+          <thead>
+        <tr>
+            <th scope="col">Test Id</th>
+            <th scope="col">Engine</th>
+             <th scope="col">Branch</th>
+            <th scope="col">Book</th>
+            <th scope="col">Hash</th>
+             <th scope="col">Tc</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+         <tbody>
+      {% for test in tests %}
+        <tr>
+            <td>{{ test.test_id}}</td>
+            <td>{{ test.engine}}</td>
+            <td>{{ test.branch}}</td>
+            <td>{{ test.book}}</td>
+           <td>{{ test.hash_size}}</td>
+            <td>{{ test.tc}}</td>
+            <td>{{test.status}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table><br>
+</body>
+</html>

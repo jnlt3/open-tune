@@ -21,6 +21,9 @@
 <form action="{{url_for('TestPage')}}">
   <input type="submit" value="Create Test" />
 </form>
+<form action="{{url_for('ShowTests')}}">
+  <input type="submit" value="Show Tests" />
+</form>
       {% if current_user.is_authenticated %}
       <h1>Hi,{{current_user.username}}</h1>
           {% else %}
