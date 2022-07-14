@@ -60,4 +60,4 @@ class SpsaTest(db.Model):
     book = db.Column(db.String(50))
     hash_size = db.Column(db.Integer)
     tc = db.Column(db.Float)
-    status = db.Column(db.Enum(TestStates))
+    status = db.Column(db.Enum(TestStates), default=TestStates.ongoing)
