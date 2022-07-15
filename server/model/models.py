@@ -29,14 +29,6 @@ def load_user(user_email):
     return User.query.get(str(user_email))
 
 
-class Param(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.Float)
-    lowest = db.Column(db.Float)
-    highest = db.Column(db.Float)
-    step = db.Column(db.Float)
-
-
 class SpsaParam(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     max_iter = db.Column(db.Integer)
@@ -64,3 +56,13 @@ class SpsaTest(db.Model):
     hash_size = db.Column(db.Integer)
     tc = db.Column(db.Float)
     status = db.Column(db.Enum(TestStates), default=TestStates.ongoing)
+
+
+class Param(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    param_name = db.Column(db.String(30), nullable=False)
+    value = db.Column(db.Float)
+    lowest = db.Column(db.Float)
+    highest = db.Column(db.Float)
+    step = db.Column(db.Float)
+    test_id = db.Column(db.String(50), ForeignKey(SpsaTest.test_id))
