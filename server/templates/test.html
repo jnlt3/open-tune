@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+<script type="text/javascript">
+    $(document).ready(function(){
+      var i=1;
+     $("#addparameter").click(function(){
+         alert(i);
+         var input = document.createElement("input");
+         $('#form').append('<div id="parameter' + i + '"></div>');
+         $('#parameter' + i).html(' <br>  <label>param_name  <input class="input is-large" type="text"  name="param_name" placeholder="param_name" autofocus="" required> </label>')
+
+
+
+         i++;
+  });
+});
+
+</script>
 <div class="column is-4 is-offset-4">
     <h3 class="title">Create Test</h3>
     <div class="box">
-        <form method="POST" action="/Test">
+        <form method="POST" action="/Test" id="form">
               <div class="field">
                 <div class="control">
                      <label>Test_id
@@ -103,7 +120,8 @@
                     <input class="input is-large" type="number" step="any" name="step" placeholder="step" autofocus="" required>
                 </label>
             </div>
-            <button class="button is-block is-info is-large is-fullwidth">Submit Test</button>
+            <button class="button is-block is-info is-large is-fullwidth" id="submit">Submit Test</button>
+            <button class="button" id="addparameter">Add Parameter</button>
         </form>
     </div>
 </div>
