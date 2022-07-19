@@ -154,11 +154,11 @@ def addTest():
     db.session.commit()
 
     param = Param(
-        param_name=request.form.get("param_name"),
-        value=request.form.get("value"),
-        lowest=request.form.get("lowest"),
-        highest=request.form.get("highest"),
-        step=request.form.get("step"),
+        param_name=request.form.get("param_name1"),
+        value=request.form.get("value1"),
+        lowest=request.form.get("lowest1"),
+        highest=request.form.get("highest1"),
+        step=request.form.get("step1"),
         test_id=spsa_test.test_id
     )
 
