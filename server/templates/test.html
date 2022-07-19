@@ -8,15 +8,17 @@
 <body>
 <script type="text/javascript">
     $(document).ready(function(){
-      var i=1;
+      var i=2;
+      var submit_button= document.getElementById("submit");
      $("#addparameter").click(function(){
-         alert(i);
-         var input = document.createElement("input");
          $('#form').append('<div id="parameter' + i + '"></div>');
-         $('#parameter' + i).html(' <br>  <label>param_name  <input class="input is-large" type="text"  name="param_name" placeholder="param_name" autofocus="" required> </label>')
+         $('#parameter' + i).html(' <br>  <div class="field"><label>param_name  <input class="input is-large" type="text"  name="param_name' + i + '" placeholder="param_name" autofocus="" required> </label></div>'
+         +' <div class="field"> <label>Value <input class="input is-large" type="number" step="any" name="value' + i + '"placeholder="value" autofocus="" required> </label></div>'
+         +' <div class="field"> <label>Lowest <input class="input is-large" type="number" step="any" name="lowest' + i + '" placeholder="lowest" autofocus="" required> </label></div>'
+         +' <div class="field"> <label>Highest <input class="input is-large" type="number" step="any" name="highest' + i + '" placeholder="highest" autofocus="" required> </label></div>'
+         +' <div class="field"> <label>Step <input class="input is-large" type="number" step="any" name="step' + i + '" placeholder="step" autofocus="" required> </label></div>');
 
-
-
+         $('#parameter' + i).insertBefore(submit_button);
          i++;
   });
 });
@@ -97,27 +99,27 @@
             <br>
               <div class="field">
                 <label>param_name
-                    <input class="input is-large" type="text"  name="param_name" placeholder="param_name" autofocus="" required>
+                    <input class="input is-large" type="text"  name="param_name1" placeholder="param_name" autofocus="" required>
                 </label>
             </div>
               <div class="field">
                 <label>Value
-                    <input class="input is-large" type="number" step="any" name="value" placeholder="value" autofocus="" required>
+                    <input class="input is-large" type="number" step="any" name="value1" placeholder="value" autofocus="" required>
                 </label>
             </div>
               <div class="field">
                 <label>Lowest
-                    <input class="input is-large" type="number" step="any" name="lowest" placeholder="lowest" autofocus="" required>
+                    <input class="input is-large" type="number" step="any" name="lowest1" placeholder="lowest" autofocus="" required>
                 </label>
             </div>
               <div class="field">
                 <label>Highest
-                    <input class="input is-large" type="number" step="any" name="highest" placeholder="highest" autofocus="" required>
+                    <input class="input is-large" type="number" step="any" name="highest1" placeholder="highest" autofocus="" required>
                 </label>
             </div>
               <div class="field">
                 <label>Step
-                    <input class="input is-large" type="number" step="any" name="step" placeholder="step" autofocus="" required>
+                    <input class="input is-large" type="number" step="any" name="step1" placeholder="step" autofocus="" required>
                 </label>
             </div>
             <button class="button is-block is-info is-large is-fullwidth" id="submit">Submit Test</button>
