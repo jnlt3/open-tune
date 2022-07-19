@@ -13,7 +13,8 @@ import json
 from flask import request, render_template, flash, url_for
 import server.tune as tune
 from server.model.models import User, SpsaParam, SpsaTest, Param
-from server.tune import push_result_json, push_test_json
+from server.tune import push_result_json, push_test, push_test_json
+from common import spsa
 
 sys.path.append("/")
 
@@ -159,16 +160,40 @@ def addTest():
         lowest=request.form.get("lowest1"),
         highest=request.form.get("highest1"),
         step=request.form.get("step1"),
-        test_id=spsa_test.test_id
+        test_id=spsa_test.test_id,
     )
 
     db.session.add(param)
     db.session.commit()
+
+    test = spsa.SpsaTest(
+        request.form.get("test_id", type=str),
+        request.form.get("engine", type=str),
+        request.form.get("branch", type=str),
+        request.form.get("book", type=str),
+        request.form.get("hash_size", type=int),
+        request.form.get("tc", type=float),
+    )
+    spsa_params = spsa.SpsaParam(
+        request.form.get("max_iter", type=int),
+        request.form.get("a", type=float),
+        request.form.get("c", type=float),
+        request.form.get("_A", type=int),
+        request.form.get("alpha", type=float),
+        request.form.get("gamma", type=float),
+    )
+    param = spsa.Param(
+        request.form.get("value1", type=float),
+        request.form.get("lowest1", type=float),
+        request.form.get("highest1", type=float),
+        request.form.get("step1", type=float),
+    )
+    push_test(test, spsa_params, {request.form.get("param_name1", float): param})
 
     return render_template("index.html")
 
 
 @app.route("/TestList", methods=["GET", "POST"])
 def ShowTests():
-    tests = SpsaTest.query.filter_by(status='ongoing').all()
+    tests = SpsaTest.query.filter_by(status="ongoing").all()
     return render_template("tests.html", tests=tests)

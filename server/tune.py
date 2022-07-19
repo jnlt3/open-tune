@@ -1,7 +1,7 @@
 import copy
 import json
 from typing import Dict, List, Union
-from common.spsa import SpsaParam, SpsaTest, SpsaTuner
+from common.spsa import Param, SpsaParam, SpsaTest, SpsaTuner
 from common.utils import GameRequest, SpsaInfo, TestRequest
 import random
 from dacite import from_dict
@@ -21,21 +21,18 @@ def push_result_json(json_str: str):
     push_result(spsa_info)
 
 
-def push_test(req: TestRequest):
+def push_test(config: SpsaTest, spsa_params: SpsaParam, params: dict[str, Param]):
     global TUNES
-    if req.test_id in TUNES:
+    if config.test_id in TUNES:
         return
-    config = SpsaTest(
-        req.test_id, req.engine, req.branch, req.book, req.hash_size, req.tc
-    )
     param_history = {}
-    for name in req.params:
+    for name in params:
         param_history[name] = []
 
-    TUNES[req.test_id] = SpsaTuner(
+    TUNES[config.test_id] = SpsaTuner(
         config,
-        SpsaParam(req.max_iter, A=req.max_iter / 10),
-        req.params,
+        spsa_params,
+        params,
         1,
         [],
         param_history,
@@ -52,7 +49,7 @@ def push_result(info: SpsaInfo):
     test.t += info.w + info.l + info.d
 
     a_t = test.spsa_params.a / (test.t + test.spsa_params.A) ** test.spsa_params.alpha
-    c_t = test.spsa_params.c / (test.t ** test.spsa_params.gamma)
+    c_t = test.spsa_params.c / (test.t**test.spsa_params.gamma)
 
     gradients = {}
     for name, delta in info.delta.items():
@@ -72,7 +69,7 @@ def get_test() -> Union[GameRequest, None]:
         return None
     test = TUNES[random.choice(list(TUNES.keys()))]
 
-    c_t = test.spsa_params.c / (test.t ** test.spsa_params.gamma)
+    c_t = test.spsa_params.c / (test.t**test.spsa_params.gamma)
 
     delta = {}
     params = {}
