@@ -3,12 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+<script type="text/javascript">
+    $(document).ready(function(){
+      var i=2;
+      var submit_button= document.getElementById("submit");
+     $("#addparameter").click(function(){
+         $('#form').append('<div id="parameter' + i + '"></div>');
+         $('#parameter' + i).html(' <br>  <div class="field"><label>param_name  <input class="input is-large" type="text"  name="param_name' + i + '" placeholder="param_name" autofocus="" required> </label></div>'
+         +' <div class="field"> <label>Value <input class="input is-large" type="number" step="any" name="value' + i + '"placeholder="value" autofocus="" required> </label></div>'
+         +' <div class="field"> <label>Lowest <input class="input is-large" type="number" step="any" name="lowest' + i + '" placeholder="lowest" autofocus="" required> </label></div>'
+         +' <div class="field"> <label>Highest <input class="input is-large" type="number" step="any" name="highest' + i + '" placeholder="highest" autofocus="" required> </label></div>'
+         +' <div class="field"> <label>Step <input class="input is-large" type="number" step="any" name="step' + i + '" placeholder="step" autofocus="" required> </label></div>');
+
+         $('#parameter' + i).insertBefore(submit_button);
+         i++;
+  });
+});
+
+</script>
 <div class="column is-4 is-offset-4">
     <h3 class="title">Create Test</h3>
     <div class="box">
-        <form method="POST" action="/Test">
+        <form method="POST" action="/Test" id="form">
               <div class="field">
                 <div class="control">
                      <label>Test_id
@@ -46,6 +65,7 @@
                     <input class="input is-large" type="number" step="any" name="tc" placeholder="TC" autofocus="" required>
                 </label>
             </div>
+             <br>
             <div class="field">
                 <label >max_iter
                     <input class="input is-large" type="number" name="max_iter" placeholder="max_iter" autofocus="" required>
@@ -76,7 +96,34 @@
                     <input class="input is-large" type="number" step="any" name="gamma" placeholder="gamma" autofocus="" required>
                 </label>
             </div>
-            <button class="button is-block is-info is-large is-fullwidth">Submit Test</button>
+            <br>
+              <div class="field">
+                <label>param_name
+                    <input class="input is-large" type="text"  name="param_name1" placeholder="param_name" autofocus="" required>
+                </label>
+            </div>
+              <div class="field">
+                <label>Value
+                    <input class="input is-large" type="number" step="any" name="value1" placeholder="value" autofocus="" required>
+                </label>
+            </div>
+              <div class="field">
+                <label>Lowest
+                    <input class="input is-large" type="number" step="any" name="lowest1" placeholder="lowest" autofocus="" required>
+                </label>
+            </div>
+              <div class="field">
+                <label>Highest
+                    <input class="input is-large" type="number" step="any" name="highest1" placeholder="highest" autofocus="" required>
+                </label>
+            </div>
+              <div class="field">
+                <label>Step
+                    <input class="input is-large" type="number" step="any" name="step1" placeholder="step" autofocus="" required>
+                </label>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth" id="submit">Submit Test</button>
+            <button class="button" id="addparameter">Add Parameter</button>
         </form>
     </div>
 </div>

@@ -12,7 +12,7 @@ from dataclasses import asdict
 import json
 from flask import request, render_template, flash, url_for
 import server.tune as tune
-from server.model.models import User, SpsaParam, SpsaTest
+from server.model.models import User, SpsaParam, SpsaTest, Param
 from server.tune import push_result_json, push_test_json
 
 sys.path.append("/")
@@ -141,13 +141,25 @@ def addTest():
     db.session.add(spsa_test)
     db.session.commit()
 
-    param = SpsaParam(
+    Spsaparam = SpsaParam(
         max_iter=request.form.get("max_iter"),
         a=request.form.get("a"),
         c=request.form.get("c"),
         _A=request.form.get("_A"),
         alpha=request.form.get("alpha"),
         gamma=request.form.get("gamma"),
+    )
+
+    db.session.add(Spsaparam)
+    db.session.commit()
+
+    param = Param(
+        param_name=request.form.get("param_name1"),
+        value=request.form.get("value1"),
+        lowest=request.form.get("lowest1"),
+        highest=request.form.get("highest1"),
+        step=request.form.get("step1"),
+        test_id=spsa_test.test_id
     )
 
     db.session.add(param)
