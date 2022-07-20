@@ -19,7 +19,9 @@
          +' <div class="field"> <label>Step <input class="input is-large" type="number" step="any" name="step' + i + '" placeholder="step" autofocus="" required> </label></div>');
 
          $('#parameter' + i).insertBefore(submit_button);
+         $('#param_num').val(i);
          i++;
+
   });
 });
 
@@ -121,6 +123,9 @@
                 <label>Step
                     <input class="input is-large" type="number" step="any" name="step1" placeholder="step" autofocus="" required>
                 </label>
+            </div>
+             <div class="field">
+                    <input class="input is-large" type="hidden"  name="parameters"  id=param_num value="1" required>
             </div>
             <button class="button is-block is-info is-large is-fullwidth" id="submit">Submit Test</button>
             <button class="button" id="addparameter">Add Parameter</button>
