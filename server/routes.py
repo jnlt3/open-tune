@@ -167,7 +167,7 @@ def addTest():
         db.session.add(paramDB)
         db.session.commit()
         param = spsa.Param(
-            paramDB.value, paramDB.lowest, paramDB.highest, paramDB.highest,
+            paramDB.value, paramDB.lowest, paramDB.highest, paramDB.step,
         )
         parameters[paramDB.param_name] = param
 
