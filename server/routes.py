@@ -132,63 +132,65 @@ def TestPage():
 @login_required
 def addTest():
     spsa_test = SpsaTest(
-        test_id=request.form.get("test_id"),
-        engine=request.form.get("engine"),
-        branch=request.form.get("branch"),
-        book=request.form.get("book"),
-        hash_size=request.form.get("hash_size"),
-        tc=request.form.get("tc"),
+        test_id=request.form.get("test_id", type=str),
+        engine=request.form.get("engine", type=str),
+        branch=request.form.get("branch", type=str),
+        book=request.form.get("book", type=str),
+        hash_size=request.form.get("hash_size", type=int),
+        tc=request.form.get("tc", type=float),
     )
     db.session.add(spsa_test)
     db.session.commit()
 
     Spsaparam = SpsaParam(
-        max_iter=request.form.get("max_iter"),
-        a=request.form.get("a"),
-        c=request.form.get("c"),
-        _A=request.form.get("_A"),
-        alpha=request.form.get("alpha"),
-        gamma=request.form.get("gamma"),
+        max_iter=request.form.get("max_iter", type=int),
+        a=request.form.get("a", type=float),
+        c=request.form.get("c", type=float),
+        _A=request.form.get("_A", type=float),
+        alpha=request.form.get("alpha", type=float),
+        gamma=request.form.get("gamma", type=float),
     )
 
     db.session.add(Spsaparam)
     db.session.commit()
-
-    param = Param(
-        param_name=request.form.get("param_name1"),
-        value=request.form.get("value1"),
-        lowest=request.form.get("lowest1"),
-        highest=request.form.get("highest1"),
-        step=request.form.get("step1"),
-        test_id=spsa_test.test_id,
-    )
-
-    db.session.add(param)
-    db.session.commit()
+    parameters = dict()
+    parameters_number = request.form.get("parameters", type=int)
+    for x in range(1, parameters_number + 1):
+        paramDB = Param(
+            param_name=request.form.get("param_name" + x.__str__()),
+            value=request.form.get("value" + x.__str__(), type=float),
+            lowest=request.form.get("lowest" + x.__str__(), type=float),
+            highest=request.form.get("highest" + x.__str__(), type=float),
+            step=request.form.get("step" + x.__str__(), type=float),
+            test_id=spsa_test.test_id,
+        )
+        db.session.add(paramDB)
+        db.session.commit()
+        param = spsa.Param(
+            paramDB.value, paramDB.lowest, paramDB.highest, paramDB.highest,
+        )
+        parameters[paramDB.param_name] = param
 
     test = spsa.SpsaTest(
-        request.form.get("test_id", type=str),
-        request.form.get("engine", type=str),
-        request.form.get("branch", type=str),
-        request.form.get("book", type=str),
-        request.form.get("hash_size", type=int),
-        request.form.get("tc", type=float),
+        spsa_test.test_id,
+        spsa_test.engine,
+        spsa_test.branch,
+        spsa_test.book,
+        spsa_test.hash_size,
+        spsa_test.tc,
     )
+
     spsa_params = spsa.SpsaParam(
-        request.form.get("max_iter", type=int),
-        request.form.get("a", type=float),
-        request.form.get("c", type=float),
-        request.form.get("_A", type=int),
-        request.form.get("alpha", type=float),
-        request.form.get("gamma", type=float),
+        Spsaparam.max_iter,
+        Spsaparam.a,
+        Spsaparam.c,
+        Spsaparam._A,
+        Spsaparam.alpha,
+        Spsaparam.gamma,
     )
-    param = spsa.Param(
-        request.form.get("value1", type=float),
-        request.form.get("lowest1", type=float),
-        request.form.get("highest1", type=float),
-        request.form.get("step1", type=float),
-    )
-    push_test(test, spsa_params, {request.form.get("param_name1", float): param})
+
+    print(parameters)
+    push_test(test, spsa_params, parameters)
 
     return render_template("index.html")
 

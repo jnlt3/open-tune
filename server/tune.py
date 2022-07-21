@@ -30,12 +30,7 @@ def push_test(config: SpsaTest, spsa_params: SpsaParam, params: dict[str, Param]
         param_history[name] = []
 
     TUNES[config.test_id] = SpsaTuner(
-        config,
-        spsa_params,
-        params,
-        1,
-        [],
-        param_history,
+        config, spsa_params, params, 1, [], param_history,
     )
 
 
@@ -49,7 +44,7 @@ def push_result(info: SpsaInfo):
     test.t += info.w + info.l + info.d
 
     a_t = test.spsa_params.a / (test.t + test.spsa_params.A) ** test.spsa_params.alpha
-    c_t = test.spsa_params.c / (test.t**test.spsa_params.gamma)
+    c_t = test.spsa_params.c / (test.t ** test.spsa_params.gamma)
 
     gradients = {}
     for name, delta in info.delta.items():
@@ -69,7 +64,7 @@ def get_test() -> Union[GameRequest, None]:
         return None
     test = TUNES[random.choice(list(TUNES.keys()))]
 
-    c_t = test.spsa_params.c / (test.t**test.spsa_params.gamma)
+    c_t = test.spsa_params.c / (test.t ** test.spsa_params.gamma)
 
     delta = {}
     params = {}
